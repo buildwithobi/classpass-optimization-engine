@@ -8,3 +8,5 @@ def preprocess_data(df):
     df = pd.get_dummies(df, columns = ["persona", "class_type"], drop_first = True)
 
     return df
+
+
