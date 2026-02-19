@@ -9,7 +9,7 @@ def preprocess_features(df, target = None):
     df = df.copy()
 
     # one-hot encoding for categorical variables
-    encoder = OneHotEncoder(drop = "first", sparse = False)
+    encoder = OneHotEncoder(drop = "first", sparse_output = False)
     class_encoded = encoder.fit_transform(df[["class_type"]])
     class_df = pd.DataFrame(class_encoded, columns = encoder.get_feature_names_out(["class_type"]))
     df = pd.concat([df.drop("class_type", axis = 1), class_df], axis = 1)

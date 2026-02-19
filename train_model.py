@@ -1,4 +1,4 @@
-from src.moodels.booking_prediction import BookingLikelihoodModel
+from src.models.booking_prediction import BookingLikelihoodModel
 from src.models.churn_model import ChurnModel
 
 def train_booking_model(X_train, y_train):
