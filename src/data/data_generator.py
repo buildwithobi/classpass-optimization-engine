@@ -21,12 +21,21 @@ def generate_classpass_data(n = 50000):
     data = pd.DataFrame({
         "persona": np.random.choice(list(PERSONAS.keys()), n),
         "class_type": np.random.choice(CLASS_TYPES, n),
+        "credits_remaining": np.random.randint(0, 50, n),
         "credit_price": np.random.randint(6, 21, n),
         "current_streak": np.random.randint(0, 100, n),
-        "social_score": np.random.uniform(0, 1, n),
+        "past_bookings_30d": np.random.randint(0, 10, n),
+        "social_score": np.random.rand(n) * 100,
         "days_since_last_booking": np.random.randint(0, 30, n),
+        "class_time": pd.date_range(start = "2026-01-01", periods = n, freq = "h")
     })
+        
+    # add churn label with some random noise
+    data["churned"] = np.random.choice([0, 1], size = len(data))
 
+    return data
+    
+    # defined probability of booking based on persona and features
     def booking_probability(row):
         persona = PERSONAS[row["persona"]]
 
@@ -50,7 +59,7 @@ def generate_classpass_data(n = 50000):
             + price_penalty
             + inactivity_penalty
         )
-        return sigmoid(logit)
+        return 1 / (1 + np.exp(-logit))
     
     data["prob"] = data.apply(booking_probability, axis = 1)
     data["booked"] = np.random.binomial(1, data["prob"])
